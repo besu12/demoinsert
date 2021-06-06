@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="9260c0c4-3ddd-49dd-a531-83f474e2a7c8" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Liyat&amp;b12" database="besu" />
+	</db:config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="70c61dd6-c8a5-4e64-a7ad-ae9a16edd3e5" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="demomuleinsertFlow" doc:id="3e06b633-f6fc-4cf0-82d4-04881ae1b5cc" >
+		<http:listener doc:name="Listener" doc:id="885bd407-5be8-4850-99ba-571137d983be" config-ref="HTTP_Listener_config" path="/insert"/>
+		<db:insert doc:name="Insert" doc:id="b7db8fe6-64b6-4e4b-9e1e-624d675a540a" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO besu.product24s
+values (:product_id,:product_name,:product_quanity,:product_quality)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+"product_id":payload.product_id,
+"product_name":payload.product_name,
+"product_quanity":payload.product_quanity,
+"product_quality":payload.product_quality
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="d5d5aa18-4227-4ed4-8541-f5c2a86e2fdb">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
