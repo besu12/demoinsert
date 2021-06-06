@@ -29,7 +29,7 @@ values (:product_id,:product_name,:product_quanity,:product_quality)]]></db:sql>
 		<ee:transform doc:name="Transform Message" doc:id="d5d5aa18-4227-4ed4-8541-f5c2a86e2fdb">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
 payload]]></ee:set-payload>
 			</ee:message>

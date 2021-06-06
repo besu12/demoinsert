@@ -38,6 +38,7 @@
 				<password>Rootb192</password>
 				<environment>Sandbox</environment>
 				<WorkerType>MICRO</WorkerType>
+				<objectStoreV2>true</objectStoreV2>
 				<properties>
 				<key>value</key>
 				</properties>
